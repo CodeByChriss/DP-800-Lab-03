@@ -36,6 +36,8 @@ Pulsamos en ‘Aceptar’ y se nos completarán todos los campos automáticament
 
 ## 2. Conectarse a AdventureWorksLT
 
+Para verificar que se ha restaurado correctamente el backup anterior, ejecutamos las siguientes consultas:
+
 ```sql
  -- Verify key tables in AdventureWorksLT
  SELECT TOP (5) ProductID, Name, ListPrice 
@@ -45,11 +47,15 @@ Pulsamos en ‘Aceptar’ y se nos completarán todos los campos automáticament
  FROM SalesLT.ProductCategory;
 ```
 
+![Comprobación conexión base de datos](images/Resultado01.png)
+
 ---
 
 ## 3. Construir una salida JSON a partir de datos de productos
 
 ### Create a JSON object for each product
+
+Creamos un objecto JSON para cada producto (lo que devuelve es un array de diccionarios):
 
 ```sql
  SELECT 
@@ -63,7 +69,11 @@ Pulsamos en ‘Aceptar’ y se nos completarán todos los campos automáticament
  FOR JSON PATH;
 ```
 
+![Objeto JSON para cada objeto](images/Resultado02.png)
+
 ### Create nested JSON with product categories
+
+Agregamos información de otras tablas al objeto JSON que saldrá para cada producto:
 
 ```sql
  SELECT 
@@ -81,11 +91,15 @@ Pulsamos en ‘Aceptar’ y se nos completarán todos los campos automáticament
  FOR JSON PATH;
 ```
 
+![Objeto JSON con categoria](images/Resultado03.png)
+
 ---
 
 ## 4. Combinar JSON con una CTE y una función de ventana
 
 ### Write a CTE with window function ranking
+
+Ejecutamos el siguiente código que asigna un ranking de precio a los productos dentro de cada categoría y selecciona los 3 más caros de cada una:
 
 ```sql
  WITH RankedProducts AS (
@@ -114,7 +128,11 @@ Pulsamos en ‘Aceptar’ y se nos completarán todos los campos automáticament
  ORDER BY CategoryName, PriceRank;
 ```
 
+![CTE](images/Resultado04.png)
+
 ### Output the ranked products as JSON
+
+Ejecutamos esta consulta para obtener el mismo resultado que la consulta anterior pero esta vez en formato JSON:
 
 ```sql
  WITH RankedProducts AS (
@@ -144,11 +162,15 @@ Pulsamos en ‘Aceptar’ y se nos completarán todos los campos automáticament
  FOR JSON PATH, ROOT('TopProducts');
 ```
 
+![CTE JSON](images/Resultado05.png)
+
 ---
 
 ## 5. Parsear datos JSON con OPENJSON
 
 ### Parse a JSON array into rows
+
+Pasamos de un JSON a una tabla:
 
 ```sql
  DECLARE @ProductUpdates NVARCHAR(MAX) = N'[
@@ -167,7 +189,11 @@ Pulsamos en ‘Aceptar’ y se nos completarán todos los campos automáticament
  );
 ```
 
+![Comprobación conexión base de datos](images/Resultado06.png)
+
 ### Join parsed JSON with existing data
+
+Pasamos de un JSON a una tabla y usamos los datos del JSON para obtener más información de otras tablas:
 
 ```sql
  DECLARE @ProductUpdates NVARCHAR(MAX) = N'[
@@ -190,3 +216,5 @@ Pulsamos en ‘Aceptar’ y se nos completarán todos los campos automáticament
  ) AS updates
      ON p.ProductID = updates.ProductID;
 ```
+
+![Comprobación conexión base de datos](images/Resultado07.png)

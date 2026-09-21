@@ -1,9 +1,9 @@
 # DP-800 Laboratorio 03 - Write advanced T-SQL queries
 
-**Enlace teoría:** https://learn.microsoft.com/en-us/training/modules/write-advanced-sql-code/
+**Enlace teoría:** https://learn.microsoft.com/en-us/training/modules/write-advanced-sql-code/ <br>
 **Enlace ejercicio:** https://microsoftlearning.github.io/mslearn-sql-developer/Instructions/Labs/03-write-advanced-tsql-code.html
 
-**Autor:** Christian Salguero Varas
+**Autor:** Christian Salguero Varas <br>
 **Fecha:** 21/09/2026
 
 ---
